@@ -1,13 +1,18 @@
-= p @question.title
-= p @question.body
-= p @question.user.email
+=  @question.title
+=  @question.body
+=  @question.user.email
 - if current_user&.author_of?(@question)
-  = p link_to 'Delete', question_path(@question), method: :delete
+  =  link_to 'Delete question', question_path(@question), method: :delete
 - @question.answers.each do |answer|
-  = p answer.body
+  =  answer.body
+  - if current_user&.author_of?(answer)
+    = link_to 'Delete answer', answer_path(answer), method: :delete
+
 
 - if current_user
   = form_with model: [@question, @answer], local: true do |f|
+    = render 'shared/errors', resource: @answer
+
     = f.label :body
     = f.text_area :body
 

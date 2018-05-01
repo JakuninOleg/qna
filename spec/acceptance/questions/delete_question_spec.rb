@@ -10,25 +10,26 @@ feature 'Delete question', %q{
   let(:question_1) { create(:question, user: user[0]) }
   let(:question_2) { create(:question, user: user[1]) }
 
-  scenario 'Authenticated user can delete his question' do
-    sign_in(user[0])
-    visit question_path(question_1)
-
-    expect(page).to have_content('Delete')
-  end
-
   scenario "Authenticated user can't delete not his question" do
     sign_in(user[0])
     visit question_path(question_2)
 
-    expect(page).to_not have_content('Delete')
+    expect(page).to_not have_content 'Delete'
   end
 
   scenario 'Authenticated user deletes his question' do
     sign_in(user[0])
     visit question_path(question_1)
-    click_on 'Delete'
+    click_on 'Delete question'
 
-    expect(page).to have_content('Your question was successfully deleted')
+    expect(page).to have_content 'Your question was successfully deleted'
+    expect(page).to_not have_content question_1.title
+    expect(page).to_not have_content question_1.body
+  end
+
+  scenario 'Unauthorized guest can not delete a question' do
+    visit question_path(question_1)
+
+    expect(page).to_not have_content 'Delete'
   end
 end

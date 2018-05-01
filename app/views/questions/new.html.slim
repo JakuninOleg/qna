@@ -1,4 +1,6 @@
 = form_for @question do |f|
+  = render 'shared/errors', resource: @question
+
   = f.label :title
   = f.text_field :title
 

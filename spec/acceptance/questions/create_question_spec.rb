@@ -10,14 +10,27 @@ feature 'Create question', %q{
 
   scenario 'Authenticated user creates question' do
     sign_in(user)
-
     visit questions_path
     click_on 'Ask question'
-    fill_in 'Title', with: 'Test question'
-    fill_in 'Body', with: 'text'
+    fill_in 'Title', with: 'Test question title'
+    fill_in 'Body', with: 'Test text body'
     click_on 'Create'
 
     expect(page).to have_content 'Your question succesfully created.'
+    expect(page).to have_content 'Test question title'
+    expect(page).to have_content 'Test text body'
+  end
+
+  scenario 'Authenticated user creates question with errors' do
+    sign_in(user)
+    visit questions_path
+    click_on 'Ask question'
+    fill_in 'Title', with: ''
+    fill_in 'Body', with: ''
+    click_on 'Create'
+
+    expect(page).to have_content "Title can't be blank"
+    expect(page).to have_content "Body can't be blank"
   end
 
   scenario 'Non-authenticated user tries to create question' do

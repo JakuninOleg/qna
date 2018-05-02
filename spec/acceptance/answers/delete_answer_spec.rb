@@ -25,13 +25,13 @@ feature 'Delete answer', %q{
     answer = create(:answer, question: question, user: user_2)
     visit question_path(question)
 
-    expect(page).to_not have_content 'Delete answer'
+    expect(page).to_not have_link 'Delete answer'
   end
 
   scenario 'Unauthorized user visiting question page' do
     visit question_path(question)
 
-    expect(page).to_not have_content 'Delete answer'
+    expect(page).to_not have_link 'Delete answer'
   end
 end
 

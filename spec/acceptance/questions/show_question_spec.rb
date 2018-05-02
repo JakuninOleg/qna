@@ -10,8 +10,8 @@ feature 'Show question', %q{
   let(:question) { create(:question, user: user) }
 
   scenario 'Show question page' do
-    visit question_path(question)
     answers = create_list(:answer, 3, question: question, user: user)
+    visit question_path(question)
 
     expect(page).to have_content question.title
     expect(page).to have_content question.body

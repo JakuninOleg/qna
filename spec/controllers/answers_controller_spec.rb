@@ -8,27 +8,27 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves the new answer in the database' do
-        expect { post :create, params: { answer: attributes_for(:answer), question_id: question } }.to change(question.answers, :count).by(1)
+        expect { post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js } }.to change(question.answers, :count).by(1)
       end
 
-      it 'redirects to show view' do
-        post :create, params: { answer: attributes_for(:answer), question_id: question }
-        expect(response).to redirect_to question_path(assigns(:question))
+      it 'renders create template' do
+        post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js  }
+        expect(response).to render_template :create
       end
 
       it 'associates new answer with user created it' do
-        expect { post :create, params: { answer: attributes_for(:answer), question_id: question } }.to change(@user.answers, :count).by(1)
+        expect { post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js  } }.to change(@user.answers, :count).by(1)
       end
     end
 
     context 'with invalid attributes' do
       it 'does not save the question' do
-        expect { post :create, params: { answer: attributes_for(:invalid_answer), question_id: question } }.to_not change(question.answers, :count)
+        expect { post :create, params: { answer: attributes_for(:invalid_answer), question_id: question, format: :js  } }.to_not change(question.answers, :count)
       end
 
-      it 're-renders question show view' do
-        post :create, params: { answer: attributes_for(:invalid_answer), question_id: question }
-        expect(response).to render_template 'questions/show'
+      it 're-renders create template' do
+        post :create, params: { answer: attributes_for(:invalid_answer), question_id: question, format: :js }
+        expect(response).to render_template :create
       end
     end
 

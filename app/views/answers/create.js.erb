@@ -1,0 +1,6 @@
+<% if @answer.errors.present? %>
+  $('#answer_errors').html('<%= j render "shared/errors", resource: @answer %>');
+<% else %>
+  $('.answers').html('<%= j render 'questions/answers' %>');
+  $('#answer_body').val('');
+<% end %>

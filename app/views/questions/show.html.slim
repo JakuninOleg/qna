@@ -5,7 +5,8 @@ p=  @question.user.email
   p=  link_to 'Delete question', question_path(@question), method: :delete
 
 .answers
-  = render 'questions/answers'
+  - if @question.answers.present?
+    = render @question.answers
 
 #answer_errors
 

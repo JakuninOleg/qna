@@ -9,17 +9,16 @@ feature 'Create answer', %q{
   given(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
 
-  scenario 'Authenticated user creates answer' do
+  scenario 'Authenticated user creates answer', js: true do
     sign_in(user)
     visit question_path(question)
     fill_in 'Body', with: 'test text'
     click_on 'Create'
 
     expect(page).to have_content 'test text'
-    expect(page).to have_content 'Answer was successfully created'
   end
 
-  scenario 'Authenticated user creates answer with invalid parameters' do
+  scenario 'Authenticated user creates answer with invalid parameters', js: true do
     sign_in(user)
     visit question_path(question)
     fill_in 'Body', with: ''

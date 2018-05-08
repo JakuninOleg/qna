@@ -1,4 +1,4 @@
-let ready = function() {
+let answerReady = function() {
   $(document).on('click', '.edit-answer-link', function(e) {
     e.preventDefault();
     $(this).hide();
@@ -7,5 +7,5 @@ let ready = function() {
   });
 };
 
-$(document).ready(ready);
-$(document).on('turbolinks:load', ready);
+$(document).ready(answerReady);
+$(document).on('turbolinks:load', answerReady);

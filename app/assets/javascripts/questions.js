@@ -1,4 +1,4 @@
-let ready = function() {
+let questionReady = function() {
   $(document).on('click', '.edit-question-link', function(e) {
     e.preventDefault();
     $(this).hide();
@@ -7,6 +7,5 @@ let ready = function() {
   });
 };
 
-$(document).ready(ready);
-$(document).on('turbolinks:load', ready);
-
+$(document).ready(questionReady);
+$(document).on('turbolinks:load', questionReady);

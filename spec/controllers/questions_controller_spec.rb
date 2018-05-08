@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   sign_in_user
   let(:question) { create(:question, user: @user) }
+  let(:user_2) { create(:user) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2, user: @user) }
@@ -45,20 +46,6 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'renders new view' do
       expect(response).to render_template :new
-    end
-  end
-
-  describe 'GET #edit' do
-    sign_in_user
-
-    before { get :edit, params: { id: question } }
-
-    it 'assigns the requested question to @question' do
-      expect(assigns(:question)).to eq question
-    end
-
-    it 'renders edit view' do
-      expect(response).to render_template :edit
     end
   end
 
@@ -126,6 +113,34 @@ RSpec.describe QuestionsController, type: :controller do
         delete :destroy, params: { id: @question_2 }
 
         expect(response).to redirect_to questions_path
+      end
+    end
+  end
+
+  describe 'PATCH #update' do
+    it 'assigns the requested question to @question' do
+      patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
+      expect(assigns(:question)).to eq question
+    end
+
+    it 'changes question attributes' do
+      patch :update, params: { id: question, question: { body: 'new body'} }, format: :js
+      question.reload
+      expect(question.body).to eq 'new body'
+    end
+
+    it 'render update template' do
+      patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
+      expect(response).to render_template :update
+    end
+
+    context 'Other user' do
+      let(:question_2) { create(:question, user: user_2) }
+
+      it "User tries to edit someone else's question" do
+        patch :update, params: { id: question_2, question: { body: 'new body'} }, format: :js
+        question_2.reload
+        expect(question_2.body).to_not eq 'new body'
       end
     end
   end

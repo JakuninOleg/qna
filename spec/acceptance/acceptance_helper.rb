@@ -22,4 +22,8 @@ RSpec.configure do |config|
   end
 
   config.include AcceptanceHelper, type: :feature
+
+  config.use_transactional_fixtures = true
+
+  Capybara.javascript_driver = :selenium_chrome_headless
 end

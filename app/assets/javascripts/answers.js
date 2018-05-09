@@ -1,4 +1,4 @@
-let answerReady = function() {
+var answerReady = function() {
   $(document).on('click', '.edit-answer-link', function(e) {
     e.preventDefault();
     $(this).hide();

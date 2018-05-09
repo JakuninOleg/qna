@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :find_question, only: %i[create]
-  before_action :find_answer, only: %i[update destroy]
+  before_action :find_answer, only: %i[update destroy choose_best]
 
   def create
     @answer = @question.answers.build(answer_params)
@@ -22,6 +22,15 @@ class AnswersController < ApplicationController
     else
       flash[:alert] = "You can not delete other users' answers"
       redirect_to @question
+    end
+  end
+
+  def choose_best
+    if current_user.author_of?(@answer.question)
+      @answer.set_best
+      flash[:notice] = 'Best answers was chosen successfully'
+    else
+      flash[:alert] = 'You can not choose best answer for not yours question'
     end
   end
 

@@ -49,7 +49,7 @@ RSpec.describe AnswersController, type: :controller do
       expect(assigns(:answer)).to eq answer
     end
 
-   it 'assigns the question' do
+    it 'assigns the question' do
       patch :update, params: { id: answer, question_id: question, answer: attributes_for(:answer) }, format: :js
       expect(assigns(:question)).to eq question
     end
@@ -95,6 +95,31 @@ RSpec.describe AnswersController, type: :controller do
 
         expect(response).to redirect_to question_path(@answer_2.question)
       end
+    end
+  end
+
+  describe "PUT #choose_best" do
+    let(:user_2) { create(:user) }
+    let(:question_2) { create(:question, user: user_2) }
+    let(:answer_2) { create(:answer, question: question_2, user: user_2) }
+
+    it 'assigns the answer to @answer' do
+      put :choose_best, params: { id: answer }, format: :js
+      expect(assigns(:answer)).to eq answer
+    end
+
+    it 'author chooses the best answer 'do
+      put :choose_best, params: { id: answer }, format: :js
+      answer.reload
+
+      expect(answer).to be_best
+    end
+
+    it 'another user chooses the best answer 'do
+      put :choose_best, params: { id: answer_2 }, format: :js
+      answer.reload
+
+      expect(flash[:alert]).to eq 'You can not choose best answer for not yours question'
     end
   end
 end

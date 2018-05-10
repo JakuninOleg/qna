@@ -8,9 +8,9 @@ div class="answer_#{answer.id}"
           = f.label :body, "Answer"
           = f.text_area :body
           = f.submit 'Save'
-    - if !answer.best?
-      p = link_to 'Make this answer the best', choose_best_answer_path(answer), method: :put, remote: true
-    - if answer.best?
-      p
-        b class="best" Best answer
-    br
+  - if !answer.best? && current_user&.author_of?(answer.question)
+    p = link_to 'Make this answer the best', choose_best_answer_path(answer), method: :put, remote: true
+  - if answer.best?
+    p
+      b class="best" Best answer
+  br

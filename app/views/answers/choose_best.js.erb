@@ -1,3 +1,1 @@
-$('.best').html('');
-$('.answer_<%= @answer.id %>').remove();
-$('.answers').prepend('<%= j render @answer %>');
+$('.answers').html('<%= j render @answer.question.answers.by_best %>');

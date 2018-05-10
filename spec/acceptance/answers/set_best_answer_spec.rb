@@ -11,6 +11,7 @@ feature 'Choose the best answer', %q{
   given(:user_2) { create(:user) }
   let(:question) { create(:question, user: user) }
   let!(:answer) { create(:answer, question: question, user: user) }
+  let!(:best_answer) { create(:answer, question: question, user: user_2, best: true) }
 
   describe 'Authenticated user' do
     scenario 'sets the best answer', js: true do
@@ -20,10 +21,27 @@ feature 'Choose the best answer', %q{
       within ".answer_#{answer.id}" do
         click_link 'Make this answer the best'
         expect(page).to_not have_link 'Make this answer the best'
+        expect(page).to have_content 'Best answer'
       end
     end
 
-     scenario 'tries to set the best answer for not his answer' do
+    scenario 'chooses another answer as the best one', js: true do
+      sign_in(user)
+      visit question_path(question)
+
+      within ".answer_#{answer.id}" do
+        click_link 'Make this answer the best'
+        expect(page).to_not have_link 'Make this answer the best'
+        expect(page).to have_content 'Best answer'
+      end
+
+      within ".answer_#{best_answer.id}" do
+        expect(page).to have_link 'Make this answer the best'
+        expect(page).to_not have_content 'Best answer'
+      end
+    end
+
+     scenario 'tries to set the best answer for not his question' do
       sign_in(user_2)
       visit question_path(question)
 

@@ -11,8 +11,8 @@ feature 'Choose the best answer', %q{
   given(:user_2) { create(:user) }
   let(:question) { create(:question, user: user) }
   let!(:answer) { create(:answer, question: question, user: user) }
-  let!(:best_answer) { create(:answer, question: question, user: user_2, best: true) }
-  let(:first_answer) { page.first(:css, '.answers') }
+  let!(:best_answer) { create(:answer, question: question, user: user_2, best: true, body: 'Best Answer Body') }
+  let(:first_answer) { page.find(:css, '.answer', match: :first) }
 
   describe 'Authenticated user' do
     scenario 'sets the best answer', js: true do
@@ -25,9 +25,7 @@ feature 'Choose the best answer', %q{
         expect(page).to have_content 'Best answer'
       end
 
-      within first_answer do
-        expect(page).to have_content answer.body
-      end
+      expect(first_answer).to have_content answer.body
     end
 
     scenario 'chooses another answer as the best one', js: true do
@@ -45,10 +43,8 @@ feature 'Choose the best answer', %q{
         expect(page).to_not have_content 'Best answer'
       end
 
-      within first_answer do
-        expect(page).to have_content answer.body
-        expect(page).to have_content best_answer.body
-      end
+      expect(first_answer).to_not have_content best_answer.body
+      expect(first_answer).to have_content answer.body
     end
 
      scenario 'tries to set the best answer for not his question' do

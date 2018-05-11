@@ -73,11 +73,6 @@ RSpec.describe AnswersController, type: :controller do
         patch :update, params: { id: answer_2, question_id: question, answer: { body: 'new body'} }, format: :js
         expect(flash[:alert]).to eq "You can not update other users' answers"
       end
-
-      it 'redirects to question' do
-        patch :update, params: { id: answer_2, question_id: question, answer: { body: 'new body'} }, format: :js
-        expect(response).to redirect_to question
-      end
     end
   end
 
@@ -101,13 +96,7 @@ describe 'DELETE #destroy' do
     end
 
     it 'delete answer' do
-      expect { delete :destroy, params: { id: @answer_2 } }.to_not change(Answer, :count)
-    end
-
-    it 'redirect to index view' do
-      delete :destroy, params: { id: @answer_2 }
-
-      expect(response).to redirect_to question_path(@answer_2.question)
+      expect { delete :destroy, params: { id: @answer_2 }, format: :js }.to_not change(Answer, :count)
     end
   end
 end

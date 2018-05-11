@@ -34,7 +34,6 @@ class QuestionsController < ApplicationController
       @question.update(question_params)
     else
       flash[:alert] = "You can't delete other users questions"
-      redirect_to @question
     end
   end
 

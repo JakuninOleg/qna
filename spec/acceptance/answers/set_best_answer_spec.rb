@@ -12,6 +12,7 @@ feature 'Choose the best answer', %q{
   let(:question) { create(:question, user: user) }
   let!(:answer) { create(:answer, question: question, user: user) }
   let!(:best_answer) { create(:answer, question: question, user: user_2, best: true) }
+  let(:first_answer) { page.first(:css, '.answers') }
 
   describe 'Authenticated user' do
     scenario 'sets the best answer', js: true do
@@ -22,6 +23,10 @@ feature 'Choose the best answer', %q{
         click_link 'Make this answer the best'
         expect(page).to_not have_link 'Make this answer the best'
         expect(page).to have_content 'Best answer'
+      end
+
+      within first_answer do
+        expect(page).to have_content answer.body
       end
     end
 
@@ -38,6 +43,11 @@ feature 'Choose the best answer', %q{
       within ".answer_#{best_answer.id}" do
         expect(page).to have_link 'Make this answer the best'
         expect(page).to_not have_content 'Best answer'
+      end
+
+      within first_answer do
+        expect(page).to have_content answer.body
+        expect(page).to have_content best_answer.body
       end
     end
 

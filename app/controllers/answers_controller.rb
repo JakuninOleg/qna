@@ -15,7 +15,6 @@ class AnswersController < ApplicationController
       @question = @answer.question
     else
       flash[:alert] = "You can not update other users' answers"
-      redirect_to @answer.question
     end
   end
 
@@ -26,7 +25,6 @@ class AnswersController < ApplicationController
       @answer.destroy
     else
       flash[:alert] = "You can not delete other users' answers"
-      redirect_to @question
     end
   end
 

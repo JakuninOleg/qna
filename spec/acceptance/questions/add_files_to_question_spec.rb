@@ -1,6 +1,6 @@
 require_relative '../acceptance_helper.rb'
 
-feature 'Add files to question', %q {
+feature 'Add files to question', %q{
   "In order to illustrate my question
   as an question's author I'd like
   to be able to attach files"
@@ -23,6 +23,6 @@ feature 'Add files to question', %q {
     expect(page).to have_content 'Your question succesfully created.'
     expect(page).to have_content 'Test question title'
     expect(page).to have_content 'Test text body'
-    expect(page).to have_content 'spec_helper.rb'
+    expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
   end
 end

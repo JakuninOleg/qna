@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   sign_in_user
   let(:question) { create(:question, user: @user) }
+  let(:user_2) { create(:user) }
   let!(:answer) { create(:answer, question: question, user: @user) }
 
   describe 'POST #create' do
@@ -41,34 +42,87 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  describe 'DELETE #destroy' do
-    context 'delete own answer' do
-      it 'delete answer' do
-        expect { delete :destroy, params: { id: answer } }.to change(question.answers, :count).by(-1)
+  describe 'PATCH #update' do
+    it 'assigns the requested answer to @answer' do
+      patch :update, params: { id: answer, question_id: question, answer: attributes_for(:answer) }, format: :js
+      expect(assigns(:answer)).to eq answer
+    end
+
+    it 'assigns the question' do
+      patch :update, params: { id: answer, question_id: question, answer: attributes_for(:answer) }, format: :js
+      expect(assigns(:question)).to eq question
+    end
+
+    context 'author of the answer tries to update the answer' do
+      it 'changes answer attributes' do
+        patch :update, params: { id: answer, question_id: question, answer: { body: 'new body'} }, format: :js
+        answer.reload
+        expect(answer.body).to eq 'new body'
       end
 
-      it 'redirect to index view' do
-        delete :destroy, params: { id: answer }
-
-        expect(response).to redirect_to question_path(question)
+      it 'render update template' do
+        patch :update, params: { id: answer, answer: attributes_for(:answer) }, format: :js
+        expect(response).to render_template :update
       end
     end
 
-    context 'delete not yours answer' do
-      before do
-        @user_2 = create(:user)
-        @answer_2 = create(:answer, question: question, user: @user_2)
-      end
+    context 'Different user question' do
+      let!(:answer_2) { create(:answer, question: question, user: user_2) }
 
-      it 'delete answer' do
-        expect { delete :destroy, params: { id: @answer_2 } }.to_not change(Answer, :count)
-      end
-
-      it 'redirect to index view' do
-        delete :destroy, params: { id: @answer_2 }
-
-        expect(response).to redirect_to question_path(@answer_2.question)
+      it 'current user tries to update it' do
+        patch :update, params: { id: answer_2, question_id: question, answer: { body: 'new body'} }, format: :js
+        expect(flash[:alert]).to eq "You can not update other users' answers"
       end
     end
   end
+
+describe 'DELETE #destroy' do
+  context 'delete own answer' do
+    it 'delete answer' do
+      expect { delete :destroy, params: { id: answer }, format: :js }.to change(question.answers, :count).by(-1)
+    end
+
+    it 'render destroy template' do
+      delete :destroy, params: { id: answer }, format: :js
+
+      expect(response).to render_template :destroy
+    end
+  end
+
+  context 'delete not yours answer' do
+    before do
+      @user_2 = create(:user)
+      @answer_2 = create(:answer, question: question, user: @user_2)
+    end
+
+    it 'delete answer' do
+      expect { delete :destroy, params: { id: @answer_2 }, format: :js }.to_not change(Answer, :count)
+    end
+  end
+end
+
+describe "PUT #choose_best" do
+  let(:user_2) { create(:user) }
+  let(:question_2) { create(:question, user: user_2) }
+  let(:answer_2) { create(:answer, question: question_2, user: user_2) }
+
+  it 'assigns the answer to @answer' do
+    put :choose_best, params: { id: answer }, format: :js
+    expect(assigns(:answer)).to eq answer
+  end
+
+  it 'author chooses the best answer 'do
+    put :choose_best, params: { id: answer }, format: :js
+    answer.reload
+
+    expect(answer).to be_best
+  end
+
+  it 'another user chooses the best answer 'do
+    put :choose_best, params: { id: answer_2 }, format: :js
+    answer.reload
+
+    expect(flash[:alert]).to eq 'You can not choose best answer for not yours question'
+  end
+ end
 end

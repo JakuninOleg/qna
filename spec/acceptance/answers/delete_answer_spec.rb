@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../acceptance_helper'
 
 feature 'Delete answer', %q{
   As an authenticated user
@@ -10,13 +10,12 @@ feature 'Delete answer', %q{
   given(:user_2) { create(:user) }
   let(:question) { create(:question, user: user_1) }
 
-  scenario 'Deleting my own answer' do
+  scenario 'Deleting my own answer', js: true do
     sign_in(user_1)
     answer = create(:answer, question: question, user: user_1)
     visit question_path(question)
     click_on 'Delete answer'
 
-    expect(page).to have_content 'Your answer was destroyed'
     expect(page).to_not have_content answer.body
   end
 

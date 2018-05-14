@@ -1,13 +1,14 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
 
-  before_action :find_question, only: %i[show edit destroy]
+  before_action :find_question, only: %i[show edit destroy update]
 
   def index
     @questions = Question.all
   end
 
   def show
+    @answers = @question.answers.by_best
     @answer = Answer.new
   end
 
@@ -25,6 +26,14 @@ class QuestionsController < ApplicationController
       redirect_to @question, notice: 'Your question succesfully created.'
     else
       render :new
+    end
+  end
+
+  def update
+    if current_user.author_of?(@question)
+      @question.update(question_params)
+    else
+      flash[:alert] = "You can't delete other users questions"
     end
   end
 

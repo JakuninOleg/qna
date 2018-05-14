@@ -1,12 +1,10 @@
-p=  @question.title
-p=  @question.body
-p=  @question.user.email
+= render 'question_page', question: @question
 - if current_user&.author_of?(@question)
   p=  link_to 'Delete question', question_path(@question), method: :delete
-
+br
 .answers
   - if @question.answers.present?
-    = render @question.answers
+    = render @answers
 
 #answer_errors
 

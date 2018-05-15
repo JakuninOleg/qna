@@ -3,11 +3,15 @@ div class="question_#{question.id} question" data-id="#{question.id}"
   h2 = question.title
   h3 = question.body
   h3 = question.user.email
-  p Attachments:
+  .attachments
+    p Attachments:
 
   ul
     - question.attachments.each do |a|
-      li= link_to a.file.filename, a.file.url
+      li id="attachment_#{a.id}"
+        = link_to a.file.filename, a.file.url
+        - if current_user&.author_of?(question)
+          = link_to 'Delete attachment', attachment_path(a), method: :delete, remote: true
 
   - if current_user&.author_of?(question)
     p= link_to 'Edit', '', class: 'edit-question-link', data: { question_id: question.id }

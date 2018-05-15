@@ -14,7 +14,7 @@ feature 'Delete question', %q{
     sign_in(user[0])
     visit question_path(question_2)
 
-    expect(page).to_not have_link 'Delete'
+    expect(page).to_not have_link 'Delete question'
   end
 
   scenario 'Authenticated user deletes his question' do
@@ -30,6 +30,6 @@ feature 'Delete question', %q{
   scenario 'Unauthorized guest can not delete a question' do
     visit question_path(question_1)
 
-    expect(page).to_not have_link 'Delete'
+    expect(page).to_not have_link 'Delete question'
   end
 end

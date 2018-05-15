@@ -12,18 +12,23 @@ feature 'Add files to answer', %q{
  background do
   sign_in(user)
   visit question_path(question)
+  fill_in 'Body', with: 'Test answe'
+  attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
  end
 
- scenario 'User adds files when asking a question', js: true do
-   within '.new-answer-form' do
-     fill_in 'Body', with: 'Test answer'
-     attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
-     click_on 'Create'
+
+ scenario 'User tries to add multiple files when creating an answer to question', js: true do
+   click_on 'Add attachment'
+
+   within first('.nested-fields') do
+     attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
    end
 
+   click_on 'Create'
+
    within '.answers' do
-     expect(page).to have_content 'Test answer'
-     expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/spec_helper.rb'
+     expect(page).to have_link 'spec_helper.rb'
+     expect(page).to have_link 'rails_helper.rb'
    end
  end
 end

@@ -31,7 +31,9 @@ gem 'slim-rails'
 gem 'jquery-rails'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
-
+gem 'carrierwave'
+gem 'cocoon'
+gem 'remotipart'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -60,7 +62,6 @@ end
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15', '< 4.0'
-  gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'rails-controller-testing'
   gem 'launchy'

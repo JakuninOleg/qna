@@ -35,4 +35,6 @@ RSpec.describe Answer, type: :model do
       expect(best_answer).to eq question.answers[0]
     end
   end
+
+  it_behaves_like "rateable"
 end

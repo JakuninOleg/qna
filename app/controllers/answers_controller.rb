@@ -1,4 +1,6 @@
 class AnswersController < ApplicationController
+  include Rated
+
   before_action :authenticate_user!
   before_action :find_question, only: %i[create]
   before_action :find_answer, only: %i[update destroy choose_best]

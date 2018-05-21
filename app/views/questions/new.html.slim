@@ -12,6 +12,7 @@
   p
     = f.fields_for :attachments do |attachment|
       = render 'shared/attachment_fields', f: attachment
+    .links
       = link_to_add_association 'Add attachment', f, :attachments, partial: 'shared/attachment_fields'
 
   p

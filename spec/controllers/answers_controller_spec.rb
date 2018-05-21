@@ -125,4 +125,9 @@ describe "PUT #choose_best" do
     expect(flash[:alert]).to eq 'You can not choose best answer for not yours question'
   end
  end
+
+  it_behaves_like 'rated' do
+    let(:resource) { create(:question, user: user_2) }
+    let(:resource_2) { create(:question, user: @user) }
+  end
 end

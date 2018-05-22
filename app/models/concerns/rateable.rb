@@ -21,7 +21,7 @@ module Rateable
     ratings.sum(:vote)
   end
 
-  def voted?(user)
+  def voted_by?(user)
     ratings.exists?(user: user)
   end
 end

@@ -17,7 +17,7 @@ module Rated
   end
 
   def reset_vote
-    if @resource.voted?(current_user)
+    if @resource.voted_by?(current_user)
       @resource.reset_vote(current_user)
 
       render_json_details
@@ -33,7 +33,7 @@ module Rated
   end
 
   def vote_access
-    if @resource.voted?(current_user) || current_user.author_of?(@resource)
+    if @resource.voted_by?(current_user) || current_user.author_of?(@resource)
       head :unprocessable_entity
     end
   end

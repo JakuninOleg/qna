@@ -127,7 +127,7 @@ describe "PUT #choose_best" do
  end
 
   it_behaves_like 'rated' do
-    let(:resource) { create(:question, user: user_2) }
-    let(:resource_2) { create(:question, user: @user) }
+    let(:resource) { create(:answer, question: question, user: user_2) }
+    let(:resource_2) { create(:answer, question: question, user: @user) }
   end
 end

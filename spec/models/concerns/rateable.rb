@@ -2,6 +2,7 @@ shared_examples_for "rateable" do
   it { should have_many(:ratings).dependent(:destroy) }
 
   let(:user) { create(:user) }
+  let(:user_2) { create(:user) }
   let(:resource) { create(:question, user: user) }
 
   describe '#vote_up(user)' do
@@ -35,20 +36,21 @@ shared_examples_for "rateable" do
   end
 
   describe '#vote' do
-    it 'returns the value of the rating' do
+    it 'counts votes properly' do
       resource.vote_up(user)
-      expect(resource.votes).to eq 1
+      resource.vote_down(user_2)
+      expect(resource.votes).to eq 0
     end
   end
 
-  describe '#voted?(user)' do
+  describe '#voted_by?(user)' do
     it 'user voted' do
       resource.vote_up(user)
-      expect(resource.voted?(user)).to be true
+      expect(resource).to be_voted_by(user)
     end
 
     it 'user did not vote' do
-      expect(resource.voted?(user)).to be false
+      expect(resource).to_not be_voted_by(user)
     end
   end
 end

@@ -1,8 +1,8 @@
-var ready = function() {
+var vote = function() {
   $('.vote').bind('ajax:success', function(e) {
     [data, status, xhr] = e.detail;
     parentClass = ".rating_" + data.klass + "_" + data.id;
-    afterVote(parentClass, vote.rating);
+    afterVote(parentClass, data.rating);
   });
   function afterVote(parent, rating) {
     $(parent + " span").html(rating);
@@ -12,4 +12,4 @@ var ready = function() {
   };
 };
 
-$(document).on('turbolinks:load', ready);
+$(document).on('turbolinks:load', vote);

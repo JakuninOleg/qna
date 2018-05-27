@@ -12,17 +12,15 @@ feature 'Add files to answer', %q{
  background do
   sign_in(user)
   visit question_path(question)
-  fill_in 'Body', with: 'Test answe'
-  attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
+  fill_in 'Body', with: 'Test answer'
+  click_on 'Add attachment'
  end
 
 
  scenario 'User tries to add multiple files when creating an answer to question', js: true do
-   click_on 'Add attachment'
-
-   within first('.nested-fields') do
-     attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
-   end
+   file_fields = page.all('input[type=file]')
+   file_fields[0].set("#{Rails.root}/spec/spec_helper.rb")
+   file_fields[1].set("#{Rails.root}/spec/rails_helper.rb")
 
    click_on 'Create'
 

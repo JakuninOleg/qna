@@ -7,5 +7,4 @@ var questionReady = function() {
   });
 };
 
-$(document).ready(questionReady);
 $(document).on('turbolinks:load', questionReady);

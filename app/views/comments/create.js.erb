@@ -1,6 +1,6 @@
 var parentClass = $('.comment_<%= @resource.class.to_s.downcase %>_<%= @resource.id %>')
 <% if @comment.errors.present? %>
-  $(parentClass).find('.errors').html('<%= j render "shared/errors", resource: @comment %>')
+  $(parentClass).find('.comment_errors').html('<%= j render "shared/errors", resource: @comment %>')
 <% else %>
   $(parentClass).append('<%= j render @comment %>');
   $(parentClass).find('#comment_body').val('');

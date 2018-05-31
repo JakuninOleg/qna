@@ -6,7 +6,7 @@ $(document).on('turbolinks:load', function() {
     },
 
     received: function(data) {
-      $('.questions').prepend(data);
+      $('.questions').append(JST['templates/question'](data));
     }
   });
 });

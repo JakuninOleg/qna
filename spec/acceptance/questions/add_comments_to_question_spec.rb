@@ -12,7 +12,7 @@ feature 'Leave comments within questions', %q{
   scenario 'leave a comment', js: true do
     sign_in(user)
     visit question_path(question)
-    fill_in 'Comment body', with: 'comment text'
+    fill_in 'Comment', with: 'comment text'
     click_on 'Create Comment'
 
     expect(page).to have_content 'comment text'
@@ -21,7 +21,7 @@ feature 'Leave comments within questions', %q{
   scenario 'leave a comment with invalid attributes', js: true do
     sign_in(user)
     visit question_path(question)
-    fill_in 'Comment body', with: ''
+    fill_in 'Comment', with: ''
     click_on 'Create Comment'
 
     expect(page).to have_content "Body can't be blank"
@@ -39,7 +39,7 @@ feature 'Leave comments within questions', %q{
       end
 
       Capybara.using_session('user') do
-        fill_in 'Comment body', with: 'comment text'
+        fill_in 'Comment', with: 'comment text'
         click_on 'Create Comment'
       end
 

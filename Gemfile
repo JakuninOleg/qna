@@ -34,6 +34,8 @@ gem 'jquery-rails'
 gem 'carrierwave'
 gem 'cocoon'
 gem 'remotipart'
+gem 'skim'
+gem 'gon'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

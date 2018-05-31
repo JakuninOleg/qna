@@ -3,6 +3,14 @@ div class="answer_#{answer.id} answer"
 
   p = render 'shared/rating', resource: answer
 
+  div class="comment_answer_#{answer.id}"
+
+  p
+    = render answer.comments
+
+  p
+    = render 'comments/form', resource: answer
+
   ul
   - answer.attachments.each do |a|
     li id="attachment_#{a.id}"

@@ -13,6 +13,14 @@ div class="question_#{question.id} question" data-id="#{question.id}"
         - if current_user&.author_of?(question)
           = link_to 'Delete attachment', attachment_path(a), method: :delete, remote: true
 
+  div class="comment_question_#{question.id}"
+
+  p
+    = render question.comments
+
+  p
+    = render 'comments/form', resource: question
+
   - if current_user&.author_of?(question)
     p= link_to 'Edit', '', class: 'edit-question-link', data: { question_id: question.id }
     p

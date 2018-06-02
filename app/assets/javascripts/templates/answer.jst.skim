@@ -26,7 +26,8 @@ div class="answer_#{@answer.id}"
         - if gon.is_user_signed_in && gon.user_id == @answer.user_id
           a data-confirm="Are you sure?" rel="nofollow" data-method='delete' data-remote='true' href="/#{a.id}/destroy" Remove file
 
-  div class="comment_Answer_#{@answer.id}"
+  div class="comment_answer_#{@answer.id}"
+    .comment_errors
     form.comment_form accept-charset='UTF-8' action="/answers/#{@answer.id}/comments" data-remote='true' method='post'
       input name='utf8' type='hidden' value="✓"
       label for='comment_body' Body

@@ -10,6 +10,7 @@ var answersChannel = function () {
     received: function(data) {
       if (data.answer.user_id != gon.user_id) {
         $('.answers').prepend(JST['templates/answer'](data));
+        vote();
       }
     }
   });

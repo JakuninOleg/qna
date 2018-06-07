@@ -1,3 +1,16 @@
 h2
   a href="/questions/#{@question.id}" = @question.title
 
+p
+  = @email
+
+p
+  | rating
+  span
+    = @rating
+
+- if gon.is_user_signed_in
+  - if gon.user_id != @answer.user_id
+    a.rate.like data-method='post' data-remote='true' href="/answers/#{@answer.id}/like" rel='nofollow'  like
+    a.rate.dislike data-method='post' data-remote='true' href="/answers/#{@answer.id}/dislike" rel='nofollow'  dislike
+    a.rate.cancel.hidden data-method='post' data-remote='true' href="/answers/#{@answer.id}/cancel" rel='nofollow'  cancel

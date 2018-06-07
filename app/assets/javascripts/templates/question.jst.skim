@@ -1,4 +1,3 @@
-  div
-    h2 href="/questions/#{@question.id}" = @question.title
-  - if gon.is_user_signed_in && gon.user_id == @question.user_id
-    a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="/questions/#{@question.id}" Delete
+h2
+  a href="/questions/#{@question.id}" = @question.title
+

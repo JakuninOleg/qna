@@ -48,7 +48,6 @@ feature 'Create answer', %q{
       Capybara.using_session('user') do
         fill_in 'Body', with: 'answer text'
         click_on 'Create'
-        save_and_open_page
       end
 
       Capybara.using_session('guest') do

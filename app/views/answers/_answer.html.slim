@@ -5,11 +5,11 @@ div class="answer_#{answer.id} answer"
 
   div class="comment_answer_#{answer.id}"
 
-  p
-    = render answer.comments
+    p
+      = render answer.comments
 
-  p
-    = render 'comments/form', resource: answer
+    p
+      = render 'comments/form', resource: answer
 
   ul
   - answer.attachments.each do |a|

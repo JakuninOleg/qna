@@ -15,11 +15,11 @@ div class="question_#{question.id} question" data-id="#{question.id}"
 
   div class="comment_question_#{question.id}"
 
-  p
-    = render question.comments
+    p
+      = render question.comments
 
-  p
-    = render 'comments/form', resource: question
+    p
+      = render 'comments/form', resource: question
 
   - if current_user&.author_of?(question)
     p= link_to 'Edit', '', class: 'edit-question-link', data: { question_id: question.id }

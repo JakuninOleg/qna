@@ -7,10 +7,9 @@ div class="answer_#{@answer.id} answer"
       = @rating
 
     - if gon.is_user_signed_in
-      - if gon.user_id != @answer.user_id
-        a.rate.like data-method='post' data-remote='true' href="/answers/#{@answer.id}/like" rel='nofollow'  like
-        a.rate.dislike data-method='post' data-remote='true' href="/answers/#{@answer.id}/dislike" rel='nofollow'  dislike
-        a.rate.cancel.hidden data-method='post' data-remote='true' href="/answers/#{@answer.id}/cancel" rel='nofollow'  cancel
+      a.rate.like data-method='post' data-remote='true' href="/answers/#{@answer.id}/like" rel='nofollow'  like
+      a.rate.dislike data-method='post' data-remote='true' href="/answers/#{@answer.id}/dislike" rel='nofollow'  dislike
+      a.rate.cancel.hidden data-method='post' data-remote='true' href="/answers/#{@answer.id}/cancel" rel='nofollow'  cancel
 
   div class="comment_answer_#{@answer.id}"
 

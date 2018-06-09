@@ -2,8 +2,9 @@ class QuestionsController < ApplicationController
   include Rated
 
   before_action :authenticate_user!, except: %i[index show]
+  before_action :find_question, only: %i[show edit destroy update publish_question]
 
-  before_action :find_question, only: %i[show edit destroy update]
+  after_action :publish_question, only: :create
 
   def index
     @questions = Question.all
@@ -55,6 +56,15 @@ class QuestionsController < ApplicationController
 
   def find_question
     @question = Question.find(params[:id])
+  end
+
+  def publish_question
+    return if @question.errors.any?
+
+    ActionCable.server.broadcast('questions',
+      question: @question,
+      rating: @question.votes,
+      email: @question.user.email )
   end
 
   def question_params

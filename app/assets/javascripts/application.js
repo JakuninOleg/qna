@@ -16,4 +16,5 @@
 //= require jquery
 //= require jquery.remotipart
 //= require cocoon
+//= require skim
 //= require_tree .

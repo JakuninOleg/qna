@@ -26,4 +26,6 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   Capybara.javascript_driver = :selenium_chrome_headless
+
+  Capybara.server = :puma
 end

@@ -1,0 +1,27 @@
+div class="answer_#{@answer.id} answer"
+  p = @answer.body
+
+  p
+    | rating
+    span
+      = @rating
+
+    - if gon.is_user_signed_in
+      a.rate.like data-method='post' data-remote='true' href="/answers/#{@answer.id}/like" rel='nofollow'  like
+      a.rate.dislike data-method='post' data-remote='true' href="/answers/#{@answer.id}/dislike" rel='nofollow'  dislike
+      a.rate.cancel.hidden data-method='post' data-remote='true' href="/answers/#{@answer.id}/cancel" rel='nofollow'  cancel
+
+  div class="comment_answer_#{@answer.id}"
+
+    form.comment_form accept-charset='UTF-8' action="/answers/#{@answer.id}/comments" data-remote='true' method='post'
+      input name='utf8' type='hidden' value="✓"
+      label for='comment_body' Body
+      input#comment_body name='comment[body]' type='text'
+      input data-disable-with=('Create Comment') name='commit' type='submit' value=('Create Comment')
+
+  ul
+  - for a in @attachments
+    li id="attachment_#{a.id}"
+      a href = a.url
+
+br

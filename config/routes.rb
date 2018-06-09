@@ -13,11 +13,17 @@ Rails.application.routes.draw do
 
   resources :attachments, only: :destroy
 
-  resources :questions, concerns: [:rateable] do
-    resources :answers, shallow: true, concerns: [:rateable] do
+  concern :commentable do
+    resources :comments, only: :create, shallow: true
+  end
+
+  resources :questions, concerns: [:rateable, :commentable] do
+    resources :answers, concerns: [:rateable, :commentable], shallow: true do
       member do
         put :choose_best
       end
     end
   end
+
+  mount ActionCable.server => '/cable'
 end

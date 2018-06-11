@@ -3,53 +3,41 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: %i[index show]
   before_action :find_question, only: %i[show edit destroy update publish_question]
+  before_action :build_answer, only: :show
 
   after_action :publish_question, only: :create
 
+  respond_to :js
+
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def show
     @answers = @question.answers.by_best
-    @answer = Answer.new
-    @answer.attachments.build
+    respond_with(@question)
   end
 
   def new
-    @question = Question.new
-    @question.attachments.build
+    respond_with(@question = current_user.questions.build)
   end
 
   def edit
   end
 
   def create
-    @question = current_user.questions.build(question_params)
-
-    if @question.save
-      redirect_to @question, notice: 'Your question succesfully created.'
-    else
-      render :new
-    end
+    respond_with(@question = current_user.questions.create(question_params))
   end
 
   def update
     if current_user.author_of?(@question)
       @question.update(question_params)
-    else
-      flash[:alert] = "You can't delete other users questions"
+      respond_with @question
     end
   end
 
   def destroy
-    if current_user.author_of?(@question)
-      @question.destroy
-      flash[:notice] = 'Your question was successfully deleted'
-    else
-      flash[:alert] = "You can not delete other users' questions"
-    end
-    redirect_to questions_path
+    respond_with(@question.destroy) if current_user.author_of?(@question)
   end
 
   private
@@ -65,6 +53,10 @@ class QuestionsController < ApplicationController
       question: @question,
       rating: @question.votes,
       email: @question.user.email )
+  end
+
+  def build_answer
+    @answer = @question.answers.build
   end
 
   def question_params

@@ -1,4 +1,10 @@
+require "application_responder"
+
 class ApplicationController < ActionController::Base
+  respond_to :html
+
+  self.responder = ApplicationResponder
+
   before_action :gon_user
 
   private

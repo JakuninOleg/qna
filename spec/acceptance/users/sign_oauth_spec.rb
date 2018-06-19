@@ -22,7 +22,6 @@ feature 'Authorization via providers', %{
 
       open_email(email)
       current_email.click_link 'Confirm my account'
-      save_and_open_page
 
       expect(page).to have_content('Your email address has been successfully confirmed.')
     end

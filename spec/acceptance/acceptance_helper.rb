@@ -28,4 +28,8 @@ RSpec.configure do |config|
   Capybara.javascript_driver = :selenium_chrome_headless
 
   Capybara.server = :puma
+
+  ActionDispatch::IntegrationTest
+  Capybara.server_port = 3000
+  Capybara.app_host = 'http://localhost:3000'
 end

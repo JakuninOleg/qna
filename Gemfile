@@ -37,6 +37,9 @@ gem 'remotipart'
 gem 'skim'
 gem 'gon'
 gem 'responders'
+gem 'omniauth'
+gem 'omniauth-vkontakte'
+gem 'omniauth-twitter'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -51,6 +54,7 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem 'geckodriver-helper'
   gem 'database_cleaner'
+  gem 'letter_opener'
 end
 
 group :development do
@@ -70,6 +74,7 @@ group :test do
   gem 'launchy'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
+  gem 'capybara-email'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

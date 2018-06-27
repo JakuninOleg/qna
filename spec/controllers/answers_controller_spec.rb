@@ -122,7 +122,7 @@ describe "PUT #choose_best" do
     put :choose_best, params: { id: answer_2 }, format: :js
     answer.reload
 
-    expect(flash[:alert]).to eq 'You can not choose best answer for not yours question'
+    expect(response.status).to eq 403
   end
  end
 

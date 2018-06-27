@@ -4,7 +4,10 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :find_question, only: %i[create]
   before_action :find_answer, only: %i[update destroy choose_best]
+
   after_action :publish_answer, only: [:create]
+
+  authorize_resource
 
   def create
     @answer = @question.answers.build(answer_params)
@@ -22,13 +25,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @question = @answer.question
-
-    if current_user.author_of?(@answer)
-      @answer.destroy
-    else
-      flash[:alert] = "You can not delete other users' answers"
-    end
+    @answer.destroy
   end
 
   def choose_best

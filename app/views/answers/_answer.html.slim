@@ -17,15 +17,16 @@ div class="answer_#{answer.id} answer"
       = link_to a.file.filename, a.file.url
       - if current_user&.author_of?(answer)
         = link_to 'Delete attachment', attachment_path(a), method: :delete, remote: true
-  - if current_user&.author_of?(answer)
-    b = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
+  - if can?(:update, answer)
     p = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
     p
       = form_with model: answer, id: "edit-answer-#{answer.id}", class: 'edit_answer' do |f|
           = f.label :body, "Answer"
           = f.text_area :body
           = f.submit 'Save'
-  - if !answer.best? && current_user&.author_of?(answer.question)
+  - if can?(:destroy, answer)
+    b = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
+  - if can?(:set_best, answer)
     p = link_to 'Make this answer the best', choose_best_answer_path(answer), method: :put, remote: true
   - if answer.best?
     p

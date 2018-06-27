@@ -2,6 +2,8 @@ class CommentsController < ApplicationController
   before_action :find_resource, only: :create
   after_action :publish_comment, only: :create
 
+  authorize_resource
+
   def create
     @comment = @resource.comments.build(comment_params)
     @comment.user = current_user

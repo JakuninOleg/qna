@@ -30,6 +30,6 @@ RSpec.configure do |config|
   Capybara.server = :puma
 
   ActionDispatch::IntegrationTest
-  Capybara.server_port = 3000
+  Capybara.server_port = 3001
   Capybara.app_host = 'http://localhost:3000'
 end

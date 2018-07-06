@@ -14,8 +14,8 @@ class Ability
     guest_abilities
 
     can :create, [Question, Answer, Comment]
-    can :destroy, [Question, Answer], user_id: user.id
-    can :update, [Question, Answer], user_id: user.id
+    can :destroy, [Question, Answer], user: user
+    can :update, [Question, Answer], user: user
 
     alias_action :vote_up, :vote_down, :reset_vote, to: :vote
 
@@ -27,7 +27,7 @@ class Ability
       user.author_of?(attachment.attachable)
     end
 
-    can :set_best, Answer do |answer|
+    can :choose_best, Answer do |answer|
       user.author_of?(answer.question) && !answer.best?
     end
   end

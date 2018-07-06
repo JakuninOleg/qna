@@ -3,6 +3,8 @@ class UsersController < ApplicationController
   before_action :check_email, only: [:setup_email, :confirm_email]
   skip_before_action :check_real_email, only: [:setup_email, :confirm_email]
 
+  skip_authorization_check
+
   def setup_email
   end
 

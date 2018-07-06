@@ -71,7 +71,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'current user tries to update it' do
         patch :update, params: { id: answer_2, question_id: question, answer: { body: 'new body'} }, format: :js
-        expect(flash[:alert]).to eq "You can not update other users' answers"
+        answer_2.reload
       end
     end
   end

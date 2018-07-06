@@ -16,12 +16,7 @@ class AnswersController < ApplicationController
   end
 
   def update
-    if current_user.author_of?(@answer)
-      @answer.update(answer_params)
-      @question = @answer.question
-    else
-      flash[:alert] = "You can not update other users' answers"
-    end
+    @answer.update(answer_params)
   end
 
   def destroy
@@ -29,12 +24,7 @@ class AnswersController < ApplicationController
   end
 
   def choose_best
-    if current_user.author_of?(@answer.question)
-      @answer.set_best
-      flash[:notice] = 'Best answers was chosen successfully'
-    else
-      flash[:alert] = 'You can not choose best answer for not yours question'
-    end
+    @answer.set_best
   end
 
   private

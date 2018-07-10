@@ -6,7 +6,7 @@ feature 'Leave comments within questions', %q{
   leave comments for questions
 } do
 
-  given(:user) { create(:user) }
+  given!(:user) { create(:user) }
   let!(:question) { create(:question, user: user) }
 
   scenario 'leave a comment', js: true do

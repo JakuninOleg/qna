@@ -139,7 +139,7 @@ RSpec.describe QuestionsController, type: :controller do
       it 'redirects to question' do
         patch :update, params: { id: question_2, question: { body: 'new body'} }, format: :js
         question_2.reload
-        expect(response).to redirect_to question_2
+        expect(response.status).to eq 403
       end
     end
   end

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.configure do |config|
+  config.use_transactional_fixtures = false
+
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
   end
@@ -23,13 +25,11 @@ RSpec.configure do |config|
 
   config.include AcceptanceHelper, type: :feature
 
-  config.use_transactional_fixtures = true
-
   Capybara.javascript_driver = :selenium_chrome_headless
 
   Capybara.server = :puma
 
   ActionDispatch::IntegrationTest
-  Capybara.server_port = 3000
-  Capybara.app_host = 'http://localhost:3000'
+  Capybara.server_port = 3001
+  Capybara.app_host = 'http://localhost:3001'
 end

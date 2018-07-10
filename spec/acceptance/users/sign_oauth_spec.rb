@@ -10,7 +10,7 @@ feature 'Authorization via providers', %{
   let(:email) { 'user@email.com' }
 
   describe 'vk' do
-    scenario 'sign up user', js: true do
+    scenario 'sign up user' do
       visit new_user_session_path
 
       click_on 'Sign in with Vkontakte'
@@ -26,7 +26,7 @@ feature 'Authorization via providers', %{
       expect(page).to have_content('Your email address has been successfully confirmed.')
     end
 
-    scenario 'log in user', js: true do
+    scenario 'log in user' do
       auth = mock_auth_hash(:vkontakte, user.email)
 
       create(:authorization, user: user, provider: auth.provider, uid: auth.uid)
@@ -39,7 +39,7 @@ feature 'Authorization via providers', %{
   end
 
   describe 'twitter' do
-    scenario 'sign up user', js: true do
+    scenario 'sign up user' do
       visit new_user_session_path
 
       click_on 'Sign in with Twitter'
@@ -55,7 +55,7 @@ feature 'Authorization via providers', %{
       expect(page).to have_content('Your email address has been successfully confirmed.')
     end
 
-    scenario 'log in user', js: true do
+    scenario 'log in user' do
       auth = mock_auth_hash(:twitter, user.email)
 
       create(:authorization, user: user, provider: auth.provider, uid: auth.uid)

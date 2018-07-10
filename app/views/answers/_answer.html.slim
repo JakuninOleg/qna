@@ -26,7 +26,7 @@ div class="answer_#{answer.id} answer"
           = f.submit 'Save'
   - if can?(:destroy, answer)
     b = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
-  - if can?(:set_best, answer)
+  - if can?(:choose_best, answer)
     p = link_to 'Make this answer the best', choose_best_answer_path(answer), method: :put, remote: true
   - if answer.best?
     p

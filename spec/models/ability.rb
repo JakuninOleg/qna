@@ -59,4 +59,10 @@ RSpec.describe Ability, type: :model do
       it { should be_able_to :create, Comment }
     end
   end
+
+  describe 'for admin' do
+    let(:user) { create :admin }
+
+    it { should be_able_to :manage, :all }
+  end
 end

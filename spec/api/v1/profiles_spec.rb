@@ -1,33 +1,16 @@
 require 'rails_helper'
 
-describe 'Profile API'  do
-  describe 'GET /me' do
-   context 'unauthorized' do
-    it 'returns 401 status if there is no access_token' do
-      get '/api/v1/profiles/me', params: { format: :json }
+describe 'Profile API' do
+  describe 'GET #me' do
+    it_behaves_like "API Authenticable"
 
-      expect(response.status).to eq 401
-    end
+    context 'authorized' do
+      let(:me) { create(:admin) }
+      let(:access_token) { create(:access_token, resource_owner_id: me.id) }
 
-    it 'returns 401 status if access_token is invalid' do
-      get '/api/v1/profiles/me', params: { format: :json, access_token: '1234' }
+      before { get '/api/v1/profiles/me', params: { format: :json, access_token: access_token.token } }
 
-      expect(response.status).to eq 401
-    end
-  end
-
-  context 'authorized' do
-    let(:me) { create(:admin) }
-    let(:access_token) { create(:access_token, resource_owner_id: me.id) }
-
-    before do
-      get '/api/v1/profiles/me',
-      params: { format: :json, access_token: access_token.token }
-    end
-
-      it 'returns 200 status' do
-        expect(response).to be_successful
-      end
+      it_behaves_like "response successful"
 
       %w(id email created_at updated_at).each do |attr|
         it "contains #{attr}" do
@@ -41,44 +24,37 @@ describe 'Profile API'  do
         end
       end
     end
+
+    def do_request(options = {})
+      get '/api/v1/profiles/me', params: { format: :json }.merge(options)
+    end
   end
 
+
   describe 'GET #index' do
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get '/api/v1/profiles/', params: { format: :json }
-
-        expect(response.status).to eq 401
-      end
-
-      it 'returns 401 status if access_token is invalid' do
-        get '/api/v1/profiles/', params: { format: :json, access_token: '1234' }
-
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like "API Authenticable"
 
     context 'authorized' do
       let(:me) { create(:admin) }
-      let!(:users) { create_list(:user, 3) }
+      let!(:profiles) { create_list(:user, 5) }
       let(:access_token) { create(:access_token, resource_owner_id: me.id) }
 
-      before do
-        get '/api/v1/profiles/',
-        params: { format: :json, access_token: access_token.token }
+      before { get '/api/v1/profiles/', params: { format: :json, access_token: access_token.token } }
+
+      it_behaves_like "response successful"
+      it_behaves_like "return array size", 'users', 5
+
+      it 'not have current profile' do
+        expect(response.body).to_not include_json(me.to_json)
       end
 
-        it 'returns 200 status' do
-          expect(response).to be_successful
-        end
-
-        it 'contains users' do
-          expect(response.body).to be_json_eql(users.to_json)
-        end
-
-        it 'does not have me-profile' do
-          expect(response.body).to_not include_json(me.to_json)
-        end
+      it 'contains profiles' do
+        expect(response.body).to be_json_eql(profiles.to_json)
       end
     end
+
+    def do_request(options = {})
+      get '/api/v1/profiles/', params: { format: :json }.merge(options)
+    end
   end
+end

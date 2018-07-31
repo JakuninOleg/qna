@@ -32,7 +32,7 @@ div class="question_#{question.id} question" data-id="#{question.id}"
         = f.text_area :body
         = f.submit 'Save'
 
-  - if can?(:create, Subscription) || can?(:destroy, Subscription)
+  - if can?(:create, Subscription) || can?(:destroy, @subscription)
     .subscribe_question
       - if !current_user.subscribed?(question)
         = link_to 'Subscribe', question_subscriptions_path(question), method: :post, remote: true, class: 'subscribe'

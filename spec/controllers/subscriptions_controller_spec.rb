@@ -20,8 +20,10 @@ RSpec.describe SubscriptionsController, type: :controller do
   describe 'DELETE#destroy' do
     sign_in_user
 
+    let!(:subscription_2) { create(:subscription, question: question, user: @user) }
+
     it 'deletes subscription' do
-      expect { delete :destroy, params: { id: subscription }, format: :js }.to change(Subscription, :count).by(-1)
+      expect { delete :destroy, params: { id: subscription_2 }, format: :js }.to change(Subscription, :count).by(-1)
     end
   end
 end

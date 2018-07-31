@@ -55,6 +55,11 @@ RSpec.describe Ability, type: :model do
       it { should be_able_to :set_best, answer, user: user }
     end
 
+    context 'Subscription' do
+      it { should be_able_to :create, Subscription }
+      it { should be_able_to :destroy, Subscription }
+    end
+
     context 'Comment' do
       it { should be_able_to :create, Comment }
     end

@@ -22,7 +22,7 @@ div class="question_#{question.id} question" data-id="#{question.id}"
       = render 'comments/form', resource: question
 
   - if can?(:update, question)
-    p= link_to 'Edit', '', class: 'edit-question-link', data: { question_id: question.id }
+    p = link_to 'Edit', '', class: 'edit-question-link', data: { question_id: question.id }
     p
       = form_with model: question, id: "edit-question-#{question.id}", class: 'edit_question' do |f|
         = f.label :title
@@ -31,3 +31,10 @@ div class="question_#{question.id} question" data-id="#{question.id}"
         = f.label :body
         = f.text_area :body
         = f.submit 'Save'
+
+  - if can?(:create, Subscription) || can?(:destroy, Subscription)
+    .subscribe_question
+      - if !current_user.subscribed?(question)
+        = link_to 'Subscribe', question_subscriptions_path(question), method: :post, remote: true, class: 'subscribe'
+      - else
+        = link_to 'Unsubscribe', subscription_path(@subscription), method: :delete, remote: true, class: 'unsubscribe'

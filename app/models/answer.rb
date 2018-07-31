@@ -9,6 +9,8 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true
 
+  after_create :notify_subscribers
+
   scope :by_best, -> { order(best: :desc) }
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank
@@ -20,6 +22,10 @@ class Answer < ApplicationRecord
       best.update!(best: false) if best
       update!(best: true)
     end
+  end
+
+  def notify_subscribers
+    AnswerNotificationsJob.perform_later(self)
   end
 end
 

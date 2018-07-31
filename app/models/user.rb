@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :comments
   has_many :ratings
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   def author_of?(resource)
     resource.user_id == id
@@ -21,6 +22,16 @@ class User < ApplicationRecord
 
   def admin?
     is_a?(Admin)
+  end
+
+  def subscribed?(question)
+    self.subscriptions.exists?(question: question.id)
+  end
+
+  def self.send_daily_digest
+    find_each.each do |user|
+      DailyMailer.digest(user).deliver_later
+    end
   end
 
   def self.find_for_oauth(auth)

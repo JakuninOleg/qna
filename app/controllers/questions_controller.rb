@@ -4,6 +4,7 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :find_question, only: %i[show edit destroy update publish_question]
   before_action :build_answer, only: :show
+  before_action :find_subscription, only: %i[show update]
 
   after_action :publish_question, only: :create
 
@@ -46,6 +47,10 @@ class QuestionsController < ApplicationController
 
   def find_question
     @question = Question.find(params[:id])
+  end
+
+  def find_subscription
+    @subscription = @question.subscriptions.find_by(user: current_user)
   end
 
   def publish_question

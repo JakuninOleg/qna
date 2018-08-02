@@ -12,6 +12,7 @@ html
 
   body
     = render 'shared/navbar'
+    p = link_to 'Search', search_index_path
     p class="notice"= notice
     p class="alert"= alert
     = yield

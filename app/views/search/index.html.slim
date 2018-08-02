@@ -1,0 +1,21 @@
+= render 'form'
+
+- if @results.present?
+  - @results.each do |result|
+    p
+      => result.class.to_s
+
+      - case result.class.to_s
+      - when 'Question'
+        = link_to result.title, result
+      - when 'Answer'
+        = link_to result.body, result.question
+      - when 'Comment'
+        - if result.commentable.is_a?(Answer)
+          = link_to result.body, result.commentable.question
+        - else
+          = link_to result.body, result.commentable
+      - when 'User', 'Admin'
+        = result.email
+- else
+  h3 = "No results found for #{params[:query]}."

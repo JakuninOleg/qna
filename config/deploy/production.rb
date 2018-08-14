@@ -31,6 +31,7 @@ set :rails_env, :production
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
 
+config.assets.js_compressor = Uglifier.new(harmony: true)
 
 
 # Custom SSH Options

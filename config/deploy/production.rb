@@ -43,7 +43,7 @@ set :rails_env, :production
 # --------------
  set :ssh_options, {
    keys: %w(/Users/olegakunin/.ssh/id_rsa),
-   forward_agent: false,
+   forward_agent: true,
    auth_methods: %w(publickey password),
    port: 4321
  }

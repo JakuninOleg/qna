@@ -52,8 +52,7 @@ gem 'mysql2'
 gem 'thinking-sphinx'
 gem 'ed25519'
 gem 'bcrypt_pbkdf'
-gem 'dotenv'
-gem 'dotenv-deployment', require: 'dotenv/deployment'
+gem 'dotenv-rails'
 gem 'therubyracer'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

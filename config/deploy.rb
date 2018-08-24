@@ -14,4 +14,11 @@ append :linked_files, "config/database.yml", ".env", "config/secrets.yml"
 # Default value for linked_dirs is []
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system", "public/uploads"
 
+namespace :deploy do
+  desc 'Restart application'
+  task :restart do
+    invoke 'unicorn:restart'
+  end
 
+  after :publishing, :restart
+end
